@@ -1,9 +1,4 @@
-import java.io.*;
-import java.util.*;
-import java.text.*;
-import java.math.*;
-import java.util.regex.*;
-
+package Arrays;
 // This class shifts an array k positions to the left and prints it out
 // with a space between each integer. Big O is O(n) after parsing the input
 // which is in the form

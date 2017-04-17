@@ -1,3 +1,5 @@
+package BST;
+
 import java.util.ArrayList;
 
 //	The Node class is defined as follows:

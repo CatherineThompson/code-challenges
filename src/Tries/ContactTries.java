@@ -104,26 +104,26 @@ public class ContactTries {
 //			}
 //		}
 //	}
+	
+	private static class Node {
+		public char data;
+	    public HashMap<Character, Node> children;
+	    
+	    public Node(char data) {
+	    	children = new HashMap<Character, Node>();
+	    	this.data = data;
+	    }
+	    
+	    public Node addChild(char data) {
+	    	if (this.children.containsKey(data)) {
+	    		return this.children.get(data);
+	    	} else {
+	    		Node newNode = new Node(data);
+	        	this.children.put(data, newNode);
+	        	return newNode;
+	    	}
+	    }
+	    
+	}
 
-}
-
-class Node {
-	public char data;
-    public HashMap<Character, Node> children;
-    
-    public Node(char data) {
-    	children = new HashMap<Character, Node>();
-    	this.data = data;
-    }
-    
-    public Node addChild(char data) {
-    	if (this.children.containsKey(data)) {
-    		return this.children.get(data);
-    	} else {
-    		Node newNode = new Node(data);
-        	this.children.put(data, newNode);
-        	return newNode;
-    	}
-    }
-    
 }

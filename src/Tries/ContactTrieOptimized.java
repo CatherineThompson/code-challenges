@@ -31,80 +31,82 @@ public class ContactTrieOptimized {
 //          }
 //		}
 	}
-}
+	
+	// Each TrieNode contains an array on 26 TrieNodes, one for each
+	// letter of the alphabet.
+	private static class TrieNode {
+		public char c;
+		public TrieNode[] data;
+	    public boolean isEnd;
+	    
+	    public TrieNode(char c) {
+	    	this.data = new TrieNode[26];
+	    	this.c = c;
+	    }
+	}
 
-// Each TrieNode contains an array on 26 TrieNodes, one for each
-// letter of the alphabet.
-class TrieNode {
-	public char c;
-	public TrieNode[] data;
-    public boolean isEnd;
-    
-    public TrieNode(char c) {
-    	this.data = new TrieNode[26];
-    	this.c = c;
-    }
-}
-
-class Trie {
-	private TrieNode root;
-	private static int count;
-	
-	public Trie() {
-		root = new TrieNode('*');
-	}
-	
-	public void addContact(String contact) {
-		TrieNode currentNode = this.root;
-		for(int i = 0; i < contact.length(); i++) {
-			char c = contact.charAt(i);
-			int index = c-'a';
-			// creates new nodes in tree if empty, or 
-			// travels down trie if node exists
-			if(currentNode.data[index] == null) {
-				TrieNode newNode = new TrieNode(c);
-				currentNode.data[index] = newNode;
-				currentNode = newNode;
-			} else {
-				currentNode = currentNode.data[index];
-			}
-		}
-		currentNode.isEnd = true;
-	}
-	
-	public void find(String prefix) {
-		count = 0;
-		TrieNode bottomNode = findBottomOfTrie(prefix);
-		if (bottomNode != null) {
-			traverseTrieCount(bottomNode);
-		}
-		System.out.println(count);
-	}
-	
-	public TrieNode findBottomOfTrie(String prefix) {
-		TrieNode currentNode = this.root;
-		for(int i = 0; i < prefix.length(); i++) {
-			char c = prefix.charAt(i);
-			int index = c - 'a';
-			if(currentNode.data[index] != null) {
-				currentNode = currentNode.data[index];
-			} else {
-				return null;
-			}
+	private static class Trie {
+		private TrieNode root;
+		private static int count;
+		
+		public Trie() {
+			root = new TrieNode('*');
 		}
 		
-		return currentNode;
-	}
-	
-	private static void traverseTrieCount(TrieNode n) {
-		if(n.isEnd) {
-			count ++;
+		public void addContact(String contact) {
+			TrieNode currentNode = this.root;
+			for(int i = 0; i < contact.length(); i++) {
+				char c = contact.charAt(i);
+				int index = c-'a';
+				// creates new nodes in tree if empty, or 
+				// travels down trie if node exists
+				if(currentNode.data[index] == null) {
+					TrieNode newNode = new TrieNode(c);
+					currentNode.data[index] = newNode;
+					currentNode = newNode;
+				} else {
+					currentNode = currentNode.data[index];
+				}
+			}
+			currentNode.isEnd = true;
 		}
-		for(int i = 0; i < n.data.length; i++) {
-			if (n.data[i] != null) {
-				traverseTrieCount(n.data[i]);
+		
+		public void find(String prefix) {
+			count = 0;
+			TrieNode bottomNode = findBottomOfTrie(prefix);
+			if (bottomNode != null) {
+				traverseTrieCount(bottomNode);
+			}
+			System.out.println(count);
+		}
+		
+		public TrieNode findBottomOfTrie(String prefix) {
+			TrieNode currentNode = this.root;
+			for(int i = 0; i < prefix.length(); i++) {
+				char c = prefix.charAt(i);
+				int index = c - 'a';
+				if(currentNode.data[index] != null) {
+					currentNode = currentNode.data[index];
+				} else {
+					return null;
+				}
+			}
+			
+			return currentNode;
+		}
+		
+		private static void traverseTrieCount(TrieNode n) {
+			if(n.isEnd) {
+				count ++;
+			}
+			for(int i = 0; i < n.data.length; i++) {
+				if (n.data[i] != null) {
+					traverseTrieCount(n.data[i]);
+				}
 			}
 		}
 	}
 }
+
+
 

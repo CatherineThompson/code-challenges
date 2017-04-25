@@ -3,7 +3,7 @@ package Heaps;
 import java.util.Scanner;
 import java.util.*;
 
-public class RunningMedium {
+public class RunningMedian {
 
 	public static void main(String[] args) {
 //        Scanner in = new Scanner(System.in);
@@ -23,7 +23,6 @@ public class RunningMedium {
             	heap.add(array[j]);
     		}
     		
-    		// heap.printArray();
     		for(int j = 0; j < i + 1; j++) {
             	int nextInt = heap.poll();
             	sortedArray[j] = nextInt;
@@ -44,7 +43,7 @@ public class RunningMedium {
 			}
         }
     }
-	
+		
 	private static class MinIntHeap {
 		private int capacity = 10;
 		private int size = 0;

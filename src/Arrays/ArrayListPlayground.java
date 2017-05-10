@@ -13,7 +13,7 @@ public class ArrayListPlayground {
 		System.out.println(compression("aabccccaaax"));
 
 	}
-	
+		
 	public static String compression(String str) {
 		int count = 1;
 		char currentChar = str.charAt(0);

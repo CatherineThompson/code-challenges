@@ -10,19 +10,64 @@ public class LinkedListsPlayground {
 		ll.head.appendToTail(9);
 		ll.head.appendToTail(7);
 		ll.head.appendToTail(9);
+		ll.head.appendToTail(1);
+		ll.head.appendToTail(1);
 		ll.head.appendToTail(7);
 		ll.head.appendToTail(2);
+		ll.head.appendToTail(1);
 		ll.head.appendToTail(1);
 		ll.head.appendToTail(11);
 
 		
 		ll.printList();
 		
-		removeDupsNoBuffer(ll);
-		
 		System.out.println();
-		ll.printList();
+		
+		System.out.println(kthToLastRecursive(ll.head, 5).data);
 
+	}
+	
+	public static class Count {
+		public int value = 0;
+	}
+	
+	public static Node kthToLast(LinkedListInt ll, int k) {
+		Node runner = ll.head;
+		Node kbehind = ll.head;
+		int runnerIndex = 0;
+		
+		while(runner.next != null) {
+			runner = runner.next;
+			runnerIndex++;
+			if(runnerIndex > k) {
+				kbehind = kbehind.next;
+			}
+		}
+		
+		if(runnerIndex < k) {
+			throw new Error("too big");
+		}
+		
+		return kbehind;
+	}
+	
+	public static Node kthToLastRecursive(Node currentNode, int k) {
+		Count count = new Count();
+		return kthToLastRecursive(currentNode, k, count);
+	}
+	
+	public static Node kthToLastRecursive(Node currentNode, int k, Count count) {
+		if(currentNode == null) {
+			return null;
+		}
+		Node n = kthToLastRecursive(currentNode.next, k, count);
+		count.value++;
+		
+		if(count.value == k) {
+			return currentNode;
+		}
+		
+		return n;
 	}
 	
 	public static void removeDups(LinkedListInt ll) {

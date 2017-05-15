@@ -23,8 +23,19 @@ public class LinkedListsPlayground {
 		
 		System.out.println();
 		
-		System.out.println(kthToLastRecursive(ll.head, 5).data);
+		deleteMiddleNode(ll.head.next.next.next);
+		
+		ll.printList();
 
+	}
+	
+	public static void deleteMiddleNode(Node n) {
+		Node currentNode = n;
+		while(currentNode.next != null) {
+			currentNode.data = currentNode.next.data;
+			currentNode = currentNode.next;
+		}
+		currentNode.next = null;
 	}
 	
 	public static class Count {

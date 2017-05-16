@@ -23,7 +23,7 @@ public class LinkedListsPlayground {
 		
 		System.out.println();
 		
-		deleteMiddleNode(ll.head.next.next.next);
+		deleteMiddleNode2(ll.head.next.next.next);
 		
 		ll.printList();
 
@@ -31,11 +31,20 @@ public class LinkedListsPlayground {
 	
 	public static void deleteMiddleNode(Node n) {
 		Node currentNode = n;
-		while(currentNode.next != null) {
+		while(currentNode.next.next != null) {
 			currentNode.data = currentNode.next.data;
 			currentNode = currentNode.next;
 		}
+		currentNode.data = currentNode.next.data;
 		currentNode.next = null;
+	}
+	
+	public static void deleteMiddleNode2(Node n) {
+		Node prevNode = n;
+		Node deleteNode = n.next;
+
+		prevNode.data = deleteNode.data;
+		prevNode.next = deleteNode.next;
 	}
 	
 	public static class Count {

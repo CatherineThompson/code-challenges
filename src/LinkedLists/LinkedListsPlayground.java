@@ -37,10 +37,10 @@ public class LinkedListsPlayground {
 		LinkedListInt l2 = new LinkedListInt(9);
 		l2.head.appendToTail(9);
 		l2.head.appendToTail(9);
-		l2.head.appendToTail(9);
-		l2.head.appendToTail(9);
+//		l2.head.appendToTail(9);
+//		l2.head.appendToTail(9);
 
-		Node sum = sumRecursion(l1.head, l2.head, 0);
+		Node sum = sumsLists(l1.head, l2.head);
 		
 		Node n = sum;
 		while(n != null) {
@@ -76,60 +76,37 @@ public class LinkedListsPlayground {
 		return newNode;
 	}
 	
-	public static LinkedListInt sumsLists(LinkedListInt l1, LinkedListInt l2) {
+	public static Node sumsLists(Node node1, Node node2) {
 		int carry = 0;
-		Node currentNode1 = l1.head;
-		Node currentNode2 = l2.head;
-		LinkedListInt newList = new LinkedListInt();
-		Node newNode = null;
+		Node currentNode1 = node1;
+		Node currentNode2 = node2;
+		Node newNode = new Node();
+		Node head = newNode;
 		
 		while(currentNode1 != null || currentNode2 != null) {
-			if(currentNode1 != null && currentNode2 != null) {
-				int sum = currentNode1.data + currentNode2.data + carry;
-				if (sum > 9) {
-					carry = 1;
-					sum -=10;
-				} else {
-					carry = 0;
-				}
-				
-				if(newList.head == null) {
-					newList.head = new Node(sum);
-					newNode = newList.head;
-				} else {
-					newNode.next = new Node(sum);
-					newNode = newNode.next;
-				}
-				
-				currentNode1 = currentNode1.next;
-				currentNode2 = currentNode2.next;
+			int value1 = currentNode1 == null ? 0 : currentNode1.data;
+			int value2 = currentNode2 == null ? 0 : currentNode2.data;
+			int sum = value1 + value2 + carry;
+			
+			if (sum > 9) {
+				carry = 1;
+				sum -=10;
 			} else {
-				Node leftOver = currentNode1;
-				if (currentNode1 == null) {
-					leftOver = currentNode2;
-				}
-				while(leftOver != null) {
-					int sum = leftOver.data + carry;
-					if (sum > 9) {
-						carry = 1;
-						sum -=10;
-					} else {
-						carry = 0;
-					}
-					newNode.next = new Node(sum);
-					newNode = newNode.next;
-					leftOver = leftOver.next;
-				}
-				currentNode1 = null;
-				currentNode2 = null;
+				carry = 0;
 			}
+			
+			newNode.data = sum;
+			newNode.next = new Node();
+			newNode = newNode.next;
+							
+			currentNode1 = currentNode1 == null ? null : currentNode1.next;
+			currentNode2 = currentNode2 == null ? null : currentNode2.next;
 		}
 		
-		if(carry > 0) {
-			newNode.next = new Node(carry);
-		}
-		
-		return newList;
+		if (carry != 0) {
+			newNode.data = 1;
+		} 
+		return head;
 	}
 	
 	public static void partition(int partition, LinkedListInt ll) {

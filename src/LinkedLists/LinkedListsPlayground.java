@@ -5,18 +5,18 @@ import java.util.HashSet;
 public class LinkedListsPlayground {
 
 	public static void main(String[] args) {
-		LinkedListInt ll = new LinkedListInt(10);
-		ll.head.appendToTail(9);
-		ll.head.appendToTail(9);
-		ll.head.appendToTail(7);
-		ll.head.appendToTail(9);
-		ll.head.appendToTail(1);
-		ll.head.appendToTail(1);
-		ll.head.appendToTail(7);
-		ll.head.appendToTail(2);
-		ll.head.appendToTail(1);
-		ll.head.appendToTail(1);
-		ll.head.appendToTail(11);
+//		LinkedListInt ll = new LinkedListInt(10);
+//		ll.head.appendToTail(9);
+//		ll.head.appendToTail(9);
+//		ll.head.appendToTail(7);
+//		ll.head.appendToTail(9);
+//		ll.head.appendToTail(1);
+//		ll.head.appendToTail(1);
+//		ll.head.appendToTail(7);
+//		ll.head.appendToTail(2);
+//		ll.head.appendToTail(1);
+//		ll.head.appendToTail(1);
+//		ll.head.appendToTail(11);
 		
 //		ll.head.appendToTail(5);
 //		ll.head.appendToTail(8);
@@ -24,18 +24,73 @@ public class LinkedListsPlayground {
 //		ll.head.appendToTail(10);
 //		ll.head.appendToTail(2);
 //		ll.head.appendToTail(1);
-
-
+	
+//		ll.printList();		
+//		System.out.println();
+//		partition(7, ll);
+//		ll.printList();
+		
+		LinkedListInt l1 = new LinkedListInt(7);
+		l1.head.appendToTail(1);
+		l1.head.appendToTail(6);
+		
+		LinkedListInt l2 = new LinkedListInt(5);
+		l2.head.appendToTail(9);
+		l2.head.appendToTail(2);
+		l2.head.appendToTail(1);
+		l2.head.appendToTail(5);
 
 		
-		ll.printList();
+		LinkedListInt sum = sumsLists(l1, l2);
 		
-		System.out.println();
-		
-		partition(7, ll);
-		
-		ll.printList();
+		sum.printList();
 
+
+	}
+	
+	public static LinkedListInt sumsLists(LinkedListInt l1, LinkedListInt l2) {
+		int carry = 0;
+		Node currentNode1 = l1.head;
+		Node currentNode2 = l2.head;
+		LinkedListInt newList = new LinkedListInt();
+		Node newNode = null;
+		
+		while(currentNode1 != null || currentNode2 != null) {
+			if(currentNode1 != null && currentNode2 != null) {
+				int sum = currentNode1.data + currentNode2.data + carry;
+				if (sum > 9) {
+					carry = 1;
+					sum -=10;
+				} else {
+					carry = 0;
+				}
+				
+				if(newList.head == null) {
+					newList.head = new Node(sum);
+					newNode = newList.head;
+				} else {
+					newNode.next = new Node(sum);
+					newNode = newNode.next;
+				}
+				
+				currentNode1 = currentNode1.next;
+				currentNode2 = currentNode2.next;
+			} else {
+				Node leftOver = currentNode1;
+				if (currentNode1 == null) {
+					leftOver = currentNode2;
+				}
+				while(leftOver != null) {
+					newNode.next = new Node(leftOver.data);
+					newNode = newNode.next;
+					leftOver = leftOver.next;
+				}
+				currentNode1 = null;
+				currentNode2 = null;
+			}
+		}
+		
+		return newList;
 	}
 	
 	public static void partition(int partition, LinkedListInt ll) {
@@ -44,8 +99,8 @@ public class LinkedListsPlayground {
 		
 		Node currentNode = ll.head;
 		while(currentNode != null) {
+			Node next = currentNode.next;
 			if(currentNode.data < partition) {
-
 				if(leftPartTail == null) {
 					leftPartTail = currentNode;
 					ll.head = currentNode;
@@ -53,30 +108,21 @@ public class LinkedListsPlayground {
 					leftPartTail.next = currentNode;
 					leftPartTail = currentNode;
 				}
-				currentNode = currentNode.next;
 			} else {
 				if(rightPartHead == null) {
 					rightPartHead = currentNode;
-					currentNode = currentNode.next;
 					rightPartHead.next = null;
 				} else {
-					Node temp = currentNode.next;
 					currentNode.next = rightPartHead;
 					rightPartHead = currentNode;
-					currentNode = temp;
 				}
 			}
+			currentNode = next;
 		}
 		
-		
-		
 		leftPartTail.next = rightPartHead;
-		
 	}
-
-	
-	
-	
+		
 	public static void deleteMiddleNode(Node n) {
 		Node currentNode = n;
 		while(currentNode.next.next != null) {
@@ -191,6 +237,9 @@ public class LinkedListsPlayground {
 		
 		public LinkedListInt(int data) {
 			head = new Node(data);
+		}
+		
+		public LinkedListInt() {
 		}
 		
 		public void printList() {

@@ -30,22 +30,50 @@ public class LinkedListsPlayground {
 //		partition(7, ll);
 //		ll.printList();
 		
-		LinkedListInt l1 = new LinkedListInt(7);
-		l1.head.appendToTail(1);
-		l1.head.appendToTail(6);
+		LinkedListInt l1 = new LinkedListInt(9);
+		l1.head.appendToTail(9);
+		l1.head.appendToTail(9);
 		
-		LinkedListInt l2 = new LinkedListInt(5);
+		LinkedListInt l2 = new LinkedListInt(9);
 		l2.head.appendToTail(9);
-		l2.head.appendToTail(2);
-		l2.head.appendToTail(1);
-		l2.head.appendToTail(5);
+		l2.head.appendToTail(9);
+		l2.head.appendToTail(9);
+		l2.head.appendToTail(9);
 
+		Node sum = sumRecursion(l1.head, l2.head, 0);
 		
-		LinkedListInt sum = sumsLists(l1, l2);
+		Node n = sum;
+		while(n != null) {
+			System.out.println(n.data);
+			n = n.next;
+		}
+
+
+	}
+	
+	public static Node sumRecursion(Node node1, Node node2, int carry) {
+		if(node1 == null && node2 == null && carry == 0) {
+			return null;
+		}
 		
-		sum.printList();
-
-
+		Node newNode = new Node();
+		int value = carry;
+		
+		if (node1 != null) {
+			value += node1.data;
+		}
+		
+		if (node2 != null) {
+			value += node2.data;
+		}
+		
+		newNode.data = value % 10;
+		
+		if (node1 != null || node2 != null) {
+			Node more = sumRecursion(node1 == null ? null : node1.next, node2 == null ? null : node2.next, value >= 10 ? 1 : 0);
+			newNode.next = more;
+		}
+		return newNode;
 	}
 	
 	public static LinkedListInt sumsLists(LinkedListInt l1, LinkedListInt l2) {
@@ -81,13 +109,24 @@ public class LinkedListsPlayground {
 					leftOver = currentNode2;
 				}
 				while(leftOver != null) {
-					newNode.next = new Node(leftOver.data);
+					int sum = leftOver.data + carry;
+					if (sum > 9) {
+						carry = 1;
+						sum -=10;
+					} else {
+						carry = 0;
+					}
+					newNode.next = new Node(sum);
 					newNode = newNode.next;
 					leftOver = leftOver.next;
 				}
 				currentNode1 = null;
 				currentNode2 = null;
 			}
+		}
+		
+		if(carry > 0) {
+			newNode.next = new Node(carry);
 		}
 		
 		return newList;
@@ -260,6 +299,9 @@ public class LinkedListsPlayground {
 			this.data = data;
 		}
 		
+		public Node() {
+		}
+		
 		public void appendToTail(int d) {
 			Node end = new Node(d);
 			Node n = this;
@@ -269,7 +311,6 @@ public class LinkedListsPlayground {
 			}
 			
 			n.next = end;
-			
 		}
 	}
 

@@ -5,7 +5,7 @@ import java.util.HashSet;
 public class LinkedListsPlayground {
 
 	public static void main(String[] args) {
-		LinkedListInt ll = new LinkedListInt(5);
+		LinkedListInt ll = new LinkedListInt(10);
 		ll.head.appendToTail(9);
 		ll.head.appendToTail(9);
 		ll.head.appendToTail(7);
@@ -17,17 +17,65 @@ public class LinkedListsPlayground {
 		ll.head.appendToTail(1);
 		ll.head.appendToTail(1);
 		ll.head.appendToTail(11);
+		
+//		ll.head.appendToTail(5);
+//		ll.head.appendToTail(8);
+//		ll.head.appendToTail(5);
+//		ll.head.appendToTail(10);
+//		ll.head.appendToTail(2);
+//		ll.head.appendToTail(1);
+
+
 
 		
 		ll.printList();
 		
 		System.out.println();
 		
-		deleteMiddleNode2(ll.head.next.next.next);
+		partition(7, ll);
 		
 		ll.printList();
 
 	}
+	
+	public static void partition(int partition, LinkedListInt ll) {
+		Node leftPartTail = null;
+		Node rightPartHead = null;
+		
+		Node currentNode = ll.head;
+		while(currentNode != null) {
+			if(currentNode.data < partition) {
+
+				if(leftPartTail == null) {
+					leftPartTail = currentNode;
+					ll.head = currentNode;
+				} else {
+					leftPartTail.next = currentNode;
+					leftPartTail = currentNode;
+				}
+				currentNode = currentNode.next;
+			} else {
+				if(rightPartHead == null) {
+					rightPartHead = currentNode;
+					currentNode = currentNode.next;
+					rightPartHead.next = null;
+				} else {
+					Node temp = currentNode.next;
+					currentNode.next = rightPartHead;
+					rightPartHead = currentNode;
+					currentNode = temp;
+				}
+			}
+		}
+		
+		
+		
+		leftPartTail.next = rightPartHead;
+		
+	}
+
+	
+	
 	
 	public static void deleteMiddleNode(Node n) {
 		Node currentNode = n;
